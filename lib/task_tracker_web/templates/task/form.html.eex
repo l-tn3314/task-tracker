@@ -37,5 +37,6 @@
   
   <div>
     <%= submit "Save", class: "btn btn-primary" %>
+    <span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>
   </div>
 <% end %>
