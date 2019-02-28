@@ -23,25 +23,11 @@
   </li>
 
   <li>
-    <strong>Assigned user id:</strong>
-    <%= @task.user_id %>
+    <strong>Assigned user email:</strong>
+    <%= @task.user && @task.user.email %>
   </li>
 
 </ul>
-
-<%= if @current_user do %>
-  <div>
-    <%= form_for @changeset, Routes.task_path(@conn, :update, @task),
-            [class: "form-inline"], fn f -> %>
-      
-      <% hidden_input f, :user_id %>
-
-      <div>
-        <%= submit "Assign task to myself", class: "btn btn-primary" %>
-      </div>
-    <% end %>
-  </div>
-<% end %>
 
 <span><%= link "Edit", to: Routes.task_path(@conn, :edit, @task) %></span>
 <span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>
