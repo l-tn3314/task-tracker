@@ -14,10 +14,20 @@ defmodule TaskTracker.Tasks.Task do
     timestamps()
   end
 
+  defp validate_increments(changeset, field, increments) do
+    val = get_field(changeset, field)
+    if rem(val, increments) != 0 do
+      add_error(changeset, field, "must be in increments of " <> Integer.to_string(increments))
+    else
+      changeset
+    end
+  end
+
   @doc false
   def changeset(task, attrs) do
     task
     |> cast(attrs, [:title, :description, :completed, :time_spent, :user_id])
     |> validate_required([:title, :description, :completed, :time_spent])
+    |> validate_increments(:time_spent, 15)
   end
 end

@@ -51,7 +51,7 @@ defmodule TaskTrackerWeb.TaskController do
     end
   end
   def update(conn, %{"id" => id, "task" => task_params}) do
-    task = Tasks.get_task!(id)
+    task = Tasks.get_task(id)
     IO.puts("update")
     IO.puts(Map.get(task_params, "assign_user_email"))
     email = Map.get(task_params, "assign_user_email")
