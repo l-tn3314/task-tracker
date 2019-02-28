@@ -11,7 +11,7 @@
     <div class="container">
       <nav class="navbar navbar-expand-sm navbar-light bg-white">
         <div class="col-8">
-          <a class="navbar-brand" href="#">Task Tracker</a>
+          <a class="navbar-brand" href="/">Task Tracker</a>
         </div>
         <div class="col-4">
           <%= if @current_user do %>
@@ -26,6 +26,7 @@
               <%= text_input f, :email, class: "form-control" %>
               <%= submit "Login", class: "btn btn-secondary" %>
             <% end %>
+            <p><%= link "Register", to: Routes.user_path(@conn, :new) %></p>
           <% end %>
         </div>
       </nav>
@@ -40,8 +41,19 @@
           <% end %>
         </div>
       </div>
-      
-      <%= render @view_module, @view_template, assigns %>
+     
+      <div class="row"> 
+        <div class="col-8">
+          <%= render @view_module, @view_template, assigns %>
+        </div>
+
+        <div class="col-4">
+          <%= if @current_user do %>
+            <%= render TaskTrackerWeb.TaskView, "index.html",
+                Map.put(assigns, :tasks, @current_user.tasks) %>
+          <% end %>
+        </div>
+      </div>
     </div>
     
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>

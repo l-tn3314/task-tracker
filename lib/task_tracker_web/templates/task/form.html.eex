@@ -5,22 +5,36 @@
     </div>
   <% end %>
 
-  <%= label f, :title %>
-  <%= text_input f, :title %>
-  <%= error_tag f, :title %>
+  <div class="form-group">
+    <%= label f, :title %>
+    <%= text_input f, :title %>
+    <%= error_tag f, :title %>
+  </div>
 
-  <%= label f, :description %>
-  <%= textarea f, :description %>
-  <%= error_tag f, :description %>
+  <div class="form-group">
+    <%= label f, :description %>
+    <%= textarea f, :description %>
+    <%= error_tag f, :description %>
+  </div>
 
-  <%= label f, :completed %>
-  <%= checkbox f, :completed %>
-  <%= error_tag f, :completed %>
+  <div class="form-group">
+    <%= label f, :completed %>
+    <%= checkbox f, :completed %>
+    <%= error_tag f, :completed %>
+  </div>
+  
+  <div class="form-group">
+    <%= label f, :time_spent %>
+    <%= number_input f, :time_spent %>
+    <%= error_tag f, :time_spent %>
+  </div>
 
-  <%= label f, :time_spent %>
-  <%= number_input f, :time_spent %>
-  <%= error_tag f, :time_spent %>
-
+  <div class="form-group">
+    <%= label f, :assign_user_email %>
+    <%= text_input f, :assign_user_email %>
+    <%= error_tag f, :assign_user_email %>
+  </div>
+  
   <div>
     <%= submit "Save" %>
   </div>
