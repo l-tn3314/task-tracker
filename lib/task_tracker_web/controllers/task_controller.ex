@@ -34,18 +34,9 @@ defmodule TaskTrackerWeb.TaskController do
   end
 
   def edit(conn, %{"id" => id}) do
-    task = Tasks.get_task!(id)
+    task = Tasks.get_task(id)
     changeset = Tasks.change_task(task)
-    user_id = Map.get(task, :user_id)
-    if user_id do
-      user = TaskTracker.Users.get_user(user_id)
-      IO.puts(user.email)
-      render(conn, "edit.html", task: Map.put(task, :assign_user_email, user.email), changeset: changeset)
-    else
-      IO.puts("edit")
-      IO.puts(Map.get(task, :user_id))
-      render(conn, "edit.html", task: task, changeset: changeset)
-    end
+    render(conn, "edit.html", task: task, changeset: changeset)
   end
 
   defp update(conn, task, task_params) do
