@@ -1,6 +1,5 @@
 <div class="row">
   <div class="col-12">
-    <h2>The Task Tracker</h2>
+    <h2>Welcome To Task Tracker!</h2>
   </div>
-  <button type="button" class="btn btn-primary">Bootstrap button</button>
 </div>

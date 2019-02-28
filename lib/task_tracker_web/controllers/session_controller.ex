@@ -6,7 +6,7 @@ defmodule TaskTrackerWeb.SessionController do
     if user do
       conn
       |> put_session(:user_id, user.id)
-      |> put_flash(:info, "Welcome back #{user.email}")
+      |> put_flash(:info, "Welcome #{user.email}")
       |> redirect(to: Routes.page_path(conn, :index))
     else
       conn

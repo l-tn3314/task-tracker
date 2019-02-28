@@ -9,11 +9,11 @@
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-expand-sm navbar-light bg-white">
-        <div class="col-8">
+      <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <div class="col-7">
           <a class="navbar-brand" href="/">Task Tracker</a>
         </div>
-        <div class="col-4">
+        <div class="col-5">
           <%= if @current_user do %>
             <p>
               User: <%= @current_user.email %> |
@@ -22,11 +22,11 @@
             </p>
           <% else %>
             <%= form_for @conn, Routes.session_path(@conn, :create),
-                    [class: "form-inline"], fn f -> %>
+                    [class: "form-inline my-2"], fn f -> %>
               <%= text_input f, :email, class: "form-control" %>
               <%= submit "Login", class: "btn btn-secondary" %>
             <% end %>
-            <p><%= link "Register", to: Routes.user_path(@conn, :new) %></p>
+            <p class="register-text">No account? <%= link "Click here to register!", to: Routes.user_path(@conn, :new) %></p>
           <% end %>
         </div>
       </nav>
@@ -42,7 +42,7 @@
         </div>
       </div>
      
-      <div class="row"> 
+      <div class="row my-4"> 
         <div class="col-8">
           <%= render @view_module, @view_template, assigns %>
         </div>

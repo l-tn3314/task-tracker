@@ -14,12 +14,13 @@ defmodule TaskTrackerWeb.UserController do
     render(conn, "new.html", changeset: changeset)
   end
 
+  # creates new user, and also logs in the new user
   def create(conn, %{"user" => user_params}) do
     case Users.create_user(user_params) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User created successfully.")
-        |> redirect(to: Routes.user_path(conn, :show, user))
+        TaskTrackerWeb.SessionController.create(conn, user_params)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
