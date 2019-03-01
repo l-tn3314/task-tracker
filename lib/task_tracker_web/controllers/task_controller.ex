@@ -52,18 +52,16 @@ defmodule TaskTrackerWeb.TaskController do
   end
   def update(conn, %{"id" => id, "task" => task_params}) do
     task = Tasks.get_task(id)
-    IO.puts("update")
-    IO.puts(Map.get(task_params, "assign_user_email"))
+    changeset = Tasks.change_task(task)
     email = Map.get(task_params, "assign_user_email")
     task_params = Map.delete(task_params, "assign_user_email")
     
     user = TaskTracker.Users.get_user_by_email(email)
-    if user do
-      IO.puts("update with user_id")
-      IO.puts(user.id)
-      update(conn, task, Map.put(task_params, "user_id", user.id))
-    else
-      update(conn, task, task_params)
+    cond do
+      email == "" -> update(conn, task, Map.put(task_params, "user_id", nil))
+      user -> update(conn, task, Map.put(task_params, "user_id", user.id))
+      # invalid email
+      true -> update(conn, task, Map.put(task_params, "user_id", -1))
     end
   end
 

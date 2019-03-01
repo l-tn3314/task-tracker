@@ -32,7 +32,7 @@
   <div class="form-group">
     <%= label f, :assign_user_email %>
     <%= text_input f, :assign_user_email, value: @task && @task.user && @task.user.email %>
-    <%= error_tag f, :assign_user_email %>
+    <%= error_tag f, :user_id %>
   </div>
   
   <div>
