@@ -7,6 +7,7 @@ defmodule TaskTracker.Users do
   alias TaskTracker.Repo
 
   alias TaskTracker.Users.User
+  alias TaskTracker.Users.Manager
 
   @doc """
   Returns the list of users.
@@ -46,6 +47,10 @@ defmodule TaskTracker.Users do
 
   def get_user_by_email(email) do
     Repo.get_by(User, email: email)
+  end
+
+  def get_manager_of(id) do
+    Repo.get_by(Manager, user_id: id)
   end
 
   @doc """

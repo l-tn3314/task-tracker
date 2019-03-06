@@ -1,4 +1,4 @@
-<h1>Show User</h1>
+<h1>User Profile</h1>
 
 <ul>
 
@@ -6,6 +6,12 @@
     <strong>Email:</strong>
     <%= @user.email %>
   </li>
+  <%= if @manager do %>
+    <li>
+      <strong>Manager:</strong>
+      <%= @manager.email %>
+    </li>
+  <% end %>
 
 </ul>
 

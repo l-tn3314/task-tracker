@@ -14,6 +14,7 @@ defmodule TaskTracker.Users.Manager do
   def changeset(manager, attrs) do
     manager
     |> cast(attrs, [])
-    |> validate_required([])
+    |> validate_required([:manager_id, :user_id])
+    |> unique_constraint(:user_id)
   end
 end

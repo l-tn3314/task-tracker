@@ -16,6 +16,7 @@
         <div class="col-5">
           <%= if @current_user do %>
             <p>
+              <%= link("My account", to: Routes.user_path(@conn, :show, @current_user)) %> | 
               User: <%= @current_user.email %> |
               <%= link("Logout", to: Routes.session_path(@conn, :delete),
                 method: :delete) %>
