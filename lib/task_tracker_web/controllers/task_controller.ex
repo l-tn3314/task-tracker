@@ -3,6 +3,7 @@ defmodule TaskTrackerWeb.TaskController do
 
   alias TaskTracker.Tasks
   alias TaskTracker.Tasks.Task
+  alias TaskTracker.Users
 
   def index(conn, _params) do
     tasks = Tasks.list_tasks()
@@ -11,7 +12,7 @@ defmodule TaskTrackerWeb.TaskController do
 
   def new(conn, _params) do
     changeset = Tasks.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset, task: nil)
+    render(conn, "new.html", changeset: changeset, task: nil, emails: nil)
   end
 
   def create(conn, %{"task" => task_params}) do
@@ -29,14 +30,23 @@ defmodule TaskTrackerWeb.TaskController do
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task(id)
     user_id = get_session(conn, :user_id)
-    task_cset = Tasks.change_task(task) #%Tasks.Task{user_id: user_id})
+    task_cset = Tasks.change_task(task) 
     render(conn, "show.html", task: task, user_id: user_id, changeset: task_cset)
   end
 
   def edit(conn, %{"id" => id}) do
     task = Tasks.get_task(id)
     changeset = Tasks.change_task(task)
-    render(conn, "edit.html", task: task, changeset: changeset)
+    user_id = get_session(conn, :user_id)
+    emails = Users.get_direct_reports(user_id)
+      |> Enum.map(fn report -> report.email end) 
+    cond do
+      emails == [] -> render(conn, "edit.html", task: task, emails: [task.user && task.user.email], changeset: changeset)
+      task.user ->
+        emails = Enum.uniq([task.user.email | emails])
+        render(conn, "edit.html", task: task, emails: ["" | emails], changeset: changeset)
+      true -> render(conn, "edit.html", task: task, emails: ["" | emails], changeset: changeset)
+    end
   end
 
   defp update(conn, task, task_params) do

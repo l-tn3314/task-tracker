@@ -31,7 +31,7 @@
 
   <div class="form-group">
     <%= label f, :assign_user_email %>
-    <%= text_input f, :assign_user_email, value: @task && @task.user && @task.user.email %>
+    <%= select f, :assign_user_email, @emails, value: @task && @task.user && @task.user.email %>
     <%= error_tag f, :user_id %>
   </div>
   
