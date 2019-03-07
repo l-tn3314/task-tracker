@@ -52,7 +52,8 @@
           <%= if @current_user do %>
             <%= render TaskTrackerWeb.TaskView, "index.html",
                 Map.put(assigns, :tasks, @current_user.tasks)
-                |> Map.put(:header, "My Tasks") %>
+                |> Map.put(:header, "My Tasks")
+                |> Map.put(:show_assignment, false) %>
           <% end %>
         </div>
       </div>

@@ -4,10 +4,22 @@ defmodule TaskTrackerWeb.TaskController do
   alias TaskTracker.Tasks
   alias TaskTracker.Tasks.Task
   alias TaskTracker.Users
+  
+  # task report index page for given user
+  def index(conn, %{"user_id" => user_id}) do
+    direct_reports = Users.get_direct_reports(user_id)
+    reports_tasks = Enum.flat_map(direct_reports, fn report -> 
+        user = Users.get_user(report.id) 
+        user.tasks
+      end)
+    task_ids = Enum.map(reports_tasks, fn task -> task.id end)
+    tasks = Tasks.get_tasks(task_ids) # loads the user assoc
+    render(conn, "index.html", tasks: tasks, header: "Task Report", show_assignment: true)
+  end
 
   def index(conn, _params) do
     tasks = Tasks.list_tasks()
-    render(conn, "index.html", tasks: tasks, header: "All Tasks")
+    render(conn, "index.html", tasks: tasks, header: "All Tasks", show_assignment: true)
   end
 
   def new(conn, _params) do

@@ -3,6 +3,10 @@
     <h2>Welcome To Task Tracker!</h2>
     <div>
       <%= link "View all tasks", to: Routes.task_path(@conn, :index) %>
+      <br>
+      <%= if @current_user do %>
+        <%= link "View Task Report", to: Routes.task_path(@conn, :index, %{"user_id": @current_user.id}) %>
+      <% end %>
     </div>
   </div>
 </div>

@@ -7,7 +7,10 @@
       <th>Description</th>
       <th>Completed</th>
       <th>Time spent</th>
-
+      <%= if @show_assignment do %>
+        <th>Assigned to</th>
+      <% end %>
+    
       <th></th>
     </tr>
   </thead>
@@ -18,6 +21,9 @@
       <td><%= task.description %></td>
       <td><%= task.completed %></td>
       <td><%= task.time_spent %></td>
+      <%= if @show_assignment do %>
+        <td><%= task.user && task.user.email %></td>
+      <% end %>
 
       <td>
         <%= link "Show", to: Routes.task_path(@conn, :show, task) %>
