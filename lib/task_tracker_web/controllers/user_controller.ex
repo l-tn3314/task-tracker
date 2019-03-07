@@ -29,13 +29,9 @@ defmodule TaskTrackerWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    manager_relation = Users.get_manager_of(id)
-    if manager_relation do
-      manager = Users.get_user!(manager_relation.manager_id)
-      render(conn, "show.html", user: user, manager: manager)
-    else
-      render(conn, "show.html", user: user)
-    end
+    manager = Users.get_manager_of(id)
+    reports = Users.get_direct_reports(id)
+    render(conn, "show.html", user: user, manager: manager, reports: reports)
   end
 
   def edit(conn, %{"id" => id}) do

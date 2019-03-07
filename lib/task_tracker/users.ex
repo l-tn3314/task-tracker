@@ -6,6 +6,7 @@ defmodule TaskTracker.Users do
   import Ecto.Query, warn: false
   alias TaskTracker.Repo
 
+  alias TaskTracker.Users
   alias TaskTracker.Users.User
   alias TaskTracker.Users.Manager
 
@@ -50,7 +51,23 @@ defmodule TaskTracker.Users do
   end
 
   def get_manager_of(id) do
-    Repo.get_by(Manager, user_id: id)
+    manager_relation = Repo.get_by(Manager, user_id: id)
+    if manager_relation do
+      Users.get_user!(manager_relation.manager_id)
+    else
+      nil
+    end
+  end
+
+  def get_direct_reports(id) do
+    reports_ids_query = from m in Manager,
+        where: m.manager_id == ^id
+    reports_ids = Repo.all(reports_ids_query)
+    |> Enum.map(fn report -> report.user_id end)
+
+    reports_query = from u in User,
+        where: u.id in ^reports_ids
+    Repo.all(reports_query)
   end
 
   @doc """

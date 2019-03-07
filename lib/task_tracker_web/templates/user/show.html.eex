@@ -1,19 +1,25 @@
 <h1>User Profile</h1>
-
-<ul>
-
-  <li>
-    <strong>Email:</strong>
-    <%= @user.email %>
-  </li>
+<div class="profile">
+  <strong>Email:</strong>
+  <%= @user.email %>
   <%= if @manager do %>
-    <li>
-      <strong>Manager:</strong>
-      <%= @manager.email %>
-    </li>
+    <hr>
+    <strong>Manager:</strong>
+    <%= @manager.email %> | 
+    <%= link "Profile", to: Routes.user_path(@conn, :show, @manager) %>
   <% end %>
+  <%= if List.first(@reports) do %>
+    <hr>
+    <p><strong>Reports:</strong></p>
+    <%= for report <- @reports do %>
+      <p>
+        <%= report.email %> | 
+        <%= link "Profile", to: Routes.user_path(@conn, :show, report) %>
+      </p>
+    <% end %>
+  <% end %>
+</div>
 
-</ul>
-
+<br>
 <span><%= link "Edit", to: Routes.user_path(@conn, :edit, @user) %></span>
 <span><%= link "Back", to: Routes.user_path(@conn, :index) %></span>
