@@ -23,12 +23,20 @@ defmodule TaskTrackerWeb.TaskController do
   end
 
   def new(conn, _params) do
+    user_id = get_session(conn, :user_id)
+    emails = Users.get_direct_reports(user_id)
+      |> Enum.map(fn report -> report.email end) 
     changeset = Tasks.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset, task: nil, emails: nil)
+    render(conn, "new.html", changeset: changeset, task: nil, emails: ["" | emails])
   end
 
   def create(conn, %{"task" => task_params}) do
-    case Tasks.create_task(task_params) do
+    email = Map.get(task_params, "assign_user_email")
+    task_params = Map.delete(task_params, "assign_user_email")
+    
+    user = TaskTracker.Users.get_user_by_email(email)
+    
+    case Tasks.create_task(Map.put(task_params, "user_id", user && user.id)) do
       {:ok, task} ->
         conn
         |> put_flash(:info, "Task created successfully.")
@@ -82,6 +90,7 @@ defmodule TaskTrackerWeb.TaskController do
     cond do
       email == "" -> update(conn, task, Map.put(task_params, "user_id", nil))
       user -> update(conn, task, Map.put(task_params, "user_id", user.id))
+      # TODO: delete because emails are now dropdowns
       # invalid email
       true -> update(conn, task, Map.put(task_params, "user_id", -1))
     end
