@@ -2,3 +2,27 @@
 
 <%= render "form.html", Map.put(assigns, :action, Routes.task_path(@conn, :update, @task)) %>
 
+
+<br />
+<br />
+<div>
+  <p><strong>Update time spent:</strong>
+  <div id="edit-timeblocks">
+    <%= for timeblock <- @task.timeblocks do %>
+      <div id=<%= "timeblock-" <> Integer.to_string(timeblock.id) %> class="timeblock">
+        <input id=<%= "timeblock-start-" <> Integer.to_string(timeblock.id) %> value="<%= timeblock.starttime %>" placeholder="YYYY-MM-DD HH-MM-SS" /> - 
+          <input id=<%= "timeblock-end-" <> Integer.to_string(timeblock.id) %> value="<%= timeblock.endtime %>" placeholder="YYYY-MM-DD HH-MM-SS" />  
+        <br />
+        <button class="btn btn-secondary timeblock-update-button"
+                data-timeblock-id="<%= timeblock.id %>">Update</button>
+        <button class="btn btn-danger timeblock-delete-button" 
+                data-timeblock-id="<%= timeblock.id %>">Delete</button>
+      </div>
+    <% end %> 
+  </div>
+  </p>
+</div>
+
+<script>
+  window.timeblock_path = "<%= Routes.timeblock_path(@conn, :create) %>";  
+</script>

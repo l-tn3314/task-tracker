@@ -18,3 +18,55 @@ import "bootstrap";
 //
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
+
+$(function() {
+  function update_timeblocks(input_id) {
+    console.log("updating..");
+    $('#' + input_id).remove(); 
+  }
+
+  $('.timeblock-update-button').click((ev) => {
+    let timeblock_id = $(ev.target).data('timeblock-id');
+    console.log("update button click");
+    let starttime = $('#timeblock-start-' + timeblock_id).val();
+    let endtime = $('#timeblock-end-' + timeblock_id).val();  
+
+    let text = JSON.stringify({
+      timeblock: {
+        starttime: starttime,
+        endtime: endtime,
+      }
+    });
+
+    $.ajax(`${timeblock_path}/${timeblock_id}`, {
+      method: "put",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: text,
+      success: (resp) => {
+        alert("update successful!");
+        console.log("success");
+      },
+      error: (resp) => {
+        alert("failed to update - format should be: \nYYYY-MM-DD HH-MM-SS");
+        console.log(resp);
+      },
+    });
+  });
+
+  $('.timeblock-delete-button').click((ev) => {
+    let timeblock_id = $(ev.target).data('timeblock-id');
+    console.log("delete button click");
+    
+    $.ajax(`${timeblock_path}/${timeblock_id}`, {
+      method: "delete",
+      success: (resp) => {
+        console.log("deleted")
+        $('#timeblock-' + timeblock_id).remove(); 
+      },
+      error: (resp) => {
+        console.log(resp);
+      },
+    });
+  });
+});
