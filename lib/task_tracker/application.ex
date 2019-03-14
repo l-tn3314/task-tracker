@@ -11,9 +11,10 @@ defmodule TaskTracker.Application do
       # Start the Ecto repository
       TaskTracker.Repo,
       # Start the endpoint when the application starts
-      TaskTrackerWeb.Endpoint
+      TaskTrackerWeb.Endpoint,
       # Starts a worker by calling: TaskTracker.Worker.start_link(arg)
       # {TaskTracker.Worker, arg},
+      TaskTracker.BackupAgent,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

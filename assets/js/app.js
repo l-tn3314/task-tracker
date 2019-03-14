@@ -20,16 +20,7 @@ import "bootstrap";
 // import socket from "./socket"
 
 $(function() {
-  function create_timeblock(starttime, endtime) {
-    let newTimeblock = "<div>Added: " + starttime + " - " + endtime + "</div>"
-    $('#added-timeblocks').append(newTimeblock); 
-  }
-
-  $('.timeblock-create-button').click((ev) => {
-    let task_id = $(ev.target).data('task-id');
-    let starttime = $('#create-timeblock-start').val();
-    let endtime = $('#create-timeblock-end').val();
-
+  function create_timeblock(task_id, starttime, endtime, successCallback, errorMsg = "failed to create - format should be: \nYYYY-MM-DD HH:MM:SS") {
     let text = JSON.stringify({
       timeblock: {
         task_id: task_id,
@@ -45,13 +36,41 @@ $(function() {
       data: text,
       success: (resp) => {
         console.log("success");
-        create_timeblock(starttime, endtime);
+        successCallback();
+        //create_timeblock(starttime, endtime);
       },
       error: (resp) => {
         console.log(resp);
-        alert("failed to create - format should be: \nYYYY-MM-DD HH:MM:SS");
+        alert(errorMsg);
       },
     }); 
+//    let newTimeblock = "<div>Added: " + starttime + " - " + endtime + "</div>"
+//    $('#added-timeblocks').append(newTimeblock); 
+  }
+
+  $('.timeblock-create-button').click((ev) => {
+    let task_id = $(ev.target).data('task-id');
+    let starttime = $('#create-timeblock-start').val();
+    let endtime = $('#create-timeblock-end').val();
+
+    create_timeblock(task_id, starttime, endtime, () => { 
+      let newTimeblock = "<div>Added: " + starttime + " - " + endtime + "</div>"
+      $('#added-timeblocks').append(newTimeblock);
+    }); 
+  //  $.ajax(timeblock_path, {
+  //    method: "post",
+  //    dataType: "json",
+  //    contentType: "application/json; charset=UTF-8",
+  //    data: text,
+  //    success: (resp) => {
+  //      console.log("success");
+  //      create_timeblock(starttime, endtime);
+  //    },
+  //    error: (resp) => {
+  //      console.log(resp);
+  //      alert("failed to create - format should be: \nYYYY-MM-DD HH:MM:SS");
+  //    },
+  //  }); 
   });
 
   $('.timeblock-update-button').click((ev) => {
@@ -97,5 +116,30 @@ $(function() {
         console.log(resp);
       },
     });
+  });
+
+  $('#stop-working-button').click((ev) => {
+    let working_endtime = new Date().toISOString();
+    let task_id = $(ev.target).data('task-id');    
+    let working_starttime = $(ev.target).data('working-starttime');
+    console.log("stop button click");
+
+    let callback = () => {
+      let newTimeblock = "Added: " + working_starttime + " - " + working_endtime + "<br />"
+      $('#working-timeblocks').append(newTimeblock);
+      $('#stop-working-button').remove();
+    };
+
+    $.ajax(`${stopworking_path}`, {
+      method: "get",
+      error: (resp) => {
+        console.log("failed");
+        console.log(resp);
+      },
+      success: (resp) => {
+        create_timeblock(task_id, working_starttime, working_endtime, callback, "stop working failed");
+      }
+    });    
+
   });
 });

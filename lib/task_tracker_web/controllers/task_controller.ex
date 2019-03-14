@@ -4,7 +4,8 @@ defmodule TaskTrackerWeb.TaskController do
   alias TaskTracker.Tasks
   alias TaskTracker.Tasks.Task
   alias TaskTracker.Users
-  
+  alias TaskTracker.BackupAgent  
+
   # task report index page for given user
   def index(conn, %{"user_id" => user_id}) do
     direct_reports = Users.get_direct_reports(user_id)
@@ -47,11 +48,23 @@ defmodule TaskTrackerWeb.TaskController do
     end
   end
 
+  def start_working(conn, %{"id" => id}) do
+    task = Tasks.get_task(id)
+    BackupAgent.put(id, DateTime.utc_now())
+    redirect(conn, to: Routes.task_path(conn, :show, task))
+  end
+
+  def stop_working(conn, %{"id" => id}) do
+    BackupAgent.put(id, nil)
+    conn
+    |> send_resp(200, "OK")
+  end
+
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task(id)
-    user_id = get_session(conn, :user_id)
     task_cset = Tasks.change_task(task) 
-    render(conn, "show.html", task: task, user_id: user_id, changeset: task_cset)
+    working_starttime = BackupAgent.get(id)
+    render(conn, "show.html", task: task, working_starttime: working_starttime, changeset: task_cset)
   end
 
   def edit(conn, %{"id" => id}) do

@@ -25,6 +25,8 @@ defmodule TaskTrackerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get("/start_working/:id", TaskController, :start_working)
+    get("/stop_working/:id", TaskController, :stop_working)
     resources "/managers", ManagerController
     resources "/tasks", TaskController
     resources "/users", UserController
