@@ -28,7 +28,6 @@ defmodule TaskTracker.Tasks.Task do
     task
     |> cast(attrs, [:title, :description, :completed, :time_spent, :user_id])
     |> validate_required([:title, :description, :completed, :time_spent])
-#    |> validate_increments(:time_spent, 15)
     |> validate_number(:user_id, greater_than: 0, message: "User email does not exist")
   end
 end

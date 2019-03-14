@@ -20,7 +20,7 @@
       <td><%= task.title %></td>
       <td><%= task.description %></td>
       <td><%= task.completed %></td>
-      <td><%= task.time_spent %></td>
+      <td><%= div(total_time_spent(task), 60) %> min.</td>
       <%= if @show_assignment do %>
         <td><%= task.user && task.user.email %></td>
       <% end %>

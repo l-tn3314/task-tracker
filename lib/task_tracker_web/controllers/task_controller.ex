@@ -74,7 +74,7 @@ defmodule TaskTrackerWeb.TaskController do
     emails = Users.get_direct_reports(user_id)
       |> Enum.map(fn report -> report.email end) 
     cond do
-      emails == [] -> render(conn, "edit.html", task: task, emails: [task.user && task.user.email], changeset: changeset)
+      emails == [] -> render(conn, "edit.html", task: task, emails: Enum.uniq(["" | [task.user && task.user.email]]), changeset: changeset)
       task.user ->
         emails = Enum.uniq([task.user.email | emails])
         render(conn, "edit.html", task: task, emails: ["" | emails], changeset: changeset)
@@ -100,13 +100,7 @@ defmodule TaskTrackerWeb.TaskController do
     task_params = Map.delete(task_params, "assign_user_email")
     
     user = TaskTracker.Users.get_user_by_email(email)
-    cond do
-      email == "" -> update(conn, task, Map.put(task_params, "user_id", nil))
-      user -> update(conn, task, Map.put(task_params, "user_id", user.id))
-      # TODO: delete because emails are now dropdowns
-      # invalid email
-      true -> update(conn, task, Map.put(task_params, "user_id", -1))
-    end
+    update(conn, task, Map.put(task_params, "user_id", user && user.id)) 
   end
 
   def delete(conn, %{"id" => id}) do

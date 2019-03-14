@@ -37,15 +37,12 @@ $(function() {
       success: (resp) => {
         console.log("success");
         successCallback();
-        //create_timeblock(starttime, endtime);
       },
       error: (resp) => {
         console.log(resp);
         alert(errorMsg);
       },
     }); 
-//    let newTimeblock = "<div>Added: " + starttime + " - " + endtime + "</div>"
-//    $('#added-timeblocks').append(newTimeblock); 
   }
 
   $('.timeblock-create-button').click((ev) => {
@@ -57,20 +54,6 @@ $(function() {
       let newTimeblock = "<div>Added: " + starttime + " - " + endtime + "</div>"
       $('#added-timeblocks').append(newTimeblock);
     }); 
-  //  $.ajax(timeblock_path, {
-  //    method: "post",
-  //    dataType: "json",
-  //    contentType: "application/json; charset=UTF-8",
-  //    data: text,
-  //    success: (resp) => {
-  //      console.log("success");
-  //      create_timeblock(starttime, endtime);
-  //    },
-  //    error: (resp) => {
-  //      console.log(resp);
-  //      alert("failed to create - format should be: \nYYYY-MM-DD HH:MM:SS");
-  //    },
-  //  }); 
   });
 
   $('.timeblock-update-button').click((ev) => {

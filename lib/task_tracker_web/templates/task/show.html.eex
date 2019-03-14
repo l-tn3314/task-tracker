@@ -19,7 +19,7 @@
 
   <li>
     <strong>Time spent:</strong>
-    <%= @task.time_spent %>
+    About <u><%= div(total_time_spent(@task), 60) %></u> minutes
     <br />
     <%= for timeblock <- @task.timeblocks do %>
       <p>
