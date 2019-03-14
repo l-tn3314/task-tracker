@@ -39,8 +39,9 @@ $(function() {
         successCallback();
       },
       error: (resp) => {
+        let errorText = resp.responseText.includes("time_interval_error");
         console.log(resp);
-        alert(errorMsg);
+        alert(errorText ? "end time must be after start time" : errorMsg);
       },
     }); 
   }
@@ -79,7 +80,9 @@ $(function() {
         console.log("success");
       },
       error: (resp) => {
-        alert("failed to update - format should be: \nYYYY-MM-DD HH:MM:SS");
+        let errorText = resp.responseText.includes("time_interval_error");
+        let alertText = errorText ? "end time must be after start time" : "failed to update - format should be: \nYYYY-MM-DD HH:MM:SS";
+        alert(alertText);
         console.log(resp);
       },
     });
