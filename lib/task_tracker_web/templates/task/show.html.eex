@@ -37,5 +37,7 @@
 
 </ul>
 
-<span><%= link "Edit", to: Routes.task_path(@conn, :edit, @task) %></span>
+<%= if @current_user do %> 
+  <span><%= link "Edit", to: Routes.task_path(@conn, :edit, @task) %></span>
+<% end %>
 <span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>
