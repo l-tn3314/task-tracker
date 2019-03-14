@@ -37,4 +37,6 @@
   </tbody>
 </table>
 
-<span><%= link "New Task", to: Routes.task_path(@conn, :new) %></span>
+<%= if @current_user do %>
+  <span><%= link "New Task", to: Routes.task_path(@conn, :new) %></span>
+<% end %>

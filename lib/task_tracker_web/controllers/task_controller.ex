@@ -44,7 +44,12 @@ defmodule TaskTrackerWeb.TaskController do
         |> redirect(to: Routes.task_path(conn, :show, task))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, task: nil)
+        # new tasks can only be created by logged in users
+        user_id = get_session(conn, :user_id)
+        emails = Users.get_direct_reports(user_id)
+        |> Enum.map(fn report -> report.email end) 
+        
+        render(conn, "new.html", changeset: changeset, task: nil, emails: ["" | emails])
     end
   end
 
