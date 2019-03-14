@@ -44,11 +44,11 @@
       </div>
      
       <div class="row my-4"> 
-        <div class="col-6">
+        <div class="col-7">
           <%= render @view_module, @view_template, assigns %>
         </div>
 
-        <div class="col-6">
+        <div class="col-5">
           <%= if @current_user do %>
             <%= render TaskTrackerWeb.TaskView, "index.html",
                 Map.put(assigns, :tasks, @current_user.tasks)

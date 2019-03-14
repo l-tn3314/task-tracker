@@ -6,8 +6,8 @@
       <th>Title</th>
       <th>Description</th>
       <th>Completed</th>
-      <th>Time spent</th>
       <%= if @show_assignment do %>
+        <th>Time spent</th> 
         <th>Assigned to</th>
       <% end %>
     
@@ -20,8 +20,8 @@
       <td><%= task.title %></td>
       <td><%= task.description %></td>
       <td><%= task.completed %></td>
-      <td><%= div(total_time_spent(task), 60) %> min.</td>
       <%= if @show_assignment do %>
+        <td><%= div(total_time_spent(task), 60) %> min.</td>
         <td><%= task.user && task.user.email %></td>
       <% end %>
 
