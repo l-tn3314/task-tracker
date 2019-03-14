@@ -20,6 +20,14 @@
   <li>
     <strong>Time spent:</strong>
     <%= @task.time_spent %>
+    <br />
+    <%= for timeblock <- @task.timeblocks do %>
+      <p>
+        Start time: <%= timeblock.starttime %>
+        <br />
+        End time: <%= timeblock.endtime %>
+      </p>
+    <% end %>
   </li>
 
   <li>

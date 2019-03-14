@@ -19,7 +19,7 @@ defmodule TaskTracker.Tasks do
   """
   def list_tasks do
     Repo.all from t in Task,
-      preload: :user 
+      preload: [:user, :timeblocks] 
   end
 
   @doc """
@@ -36,18 +36,22 @@ defmodule TaskTracker.Tasks do
       ** (Ecto.NoResultsError)
 
   """
-  def get_task!(id), do: Repo.get!(Task, id)
+  def get_task!(id) do
+    Repo.one! from t in Task,
+      where: t.id == ^id,
+      preload: [:user, :timeblocks]
+  end
 
   def get_task(id) do
     Repo.one from t in Task,
       where: t.id == ^id,
-      preload: :user
+      preload: [:user, :timeblocks]
   end
   
   def get_tasks(ids) do
     Repo.all from t in Task,
       where: t.id in ^ids,
-      preload: :user
+      preload: [:user, :timeblocks]
   end
 
   @doc """
