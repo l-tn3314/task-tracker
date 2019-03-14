@@ -6,20 +6,28 @@
 <br />
 <br />
 <div>
-  <p><strong>Update time spent:</strong>
-  <div id="edit-timeblocks">
-    <%= for timeblock <- @task.timeblocks do %>
-      <div id=<%= "timeblock-" <> Integer.to_string(timeblock.id) %> class="timeblock">
-        <input id=<%= "timeblock-start-" <> Integer.to_string(timeblock.id) %> value="<%= timeblock.starttime %>" placeholder="YYYY-MM-DD HH-MM-SS" /> - 
-          <input id=<%= "timeblock-end-" <> Integer.to_string(timeblock.id) %> value="<%= timeblock.endtime %>" placeholder="YYYY-MM-DD HH-MM-SS" />  
-        <br />
-        <button class="btn btn-secondary timeblock-update-button"
-                data-timeblock-id="<%= timeblock.id %>">Update</button>
-        <button class="btn btn-danger timeblock-delete-button" 
-                data-timeblock-id="<%= timeblock.id %>">Delete</button>
-      </div>
-    <% end %> 
-  </div>
+  <p>
+    <strong>Update time spent:</strong> 
+    <div id="edit-timeblocks">
+      <%= for timeblock <- @task.timeblocks do %>
+        <div id=<%= "timeblock-" <> Integer.to_string(timeblock.id) %> class="timeblock">
+          <input id=<%= "timeblock-start-" <> Integer.to_string(timeblock.id) %> value="<%= timeblock.starttime %>" placeholder="YYYY-MM-DD HH:MM:SS" /> - 
+            <input id=<%= "timeblock-end-" <> Integer.to_string(timeblock.id) %> value="<%= timeblock.endtime %>" placeholder="YYYY-MM-DD HH:MM:SS" />  
+          <br />
+          <button class="btn btn-secondary timeblock-update-button"
+                  data-timeblock-id="<%= timeblock.id %>">Update</button>
+          <button class="btn btn-danger timeblock-delete-button" 
+                  data-timeblock-id="<%= timeblock.id %>">Delete</button>
+        </div>
+      <% end %> 
+    </div>
+    <div id="create-timeblock"> 
+      <div id="added-timeblocks"></div>
+      <input id=<%= "create-timeblock-start" %> placeholder="YYYY-MM-DD HH:MM:SS" /> - 
+      <input id=<%= "create-timeblock-end" %> placeholder="YYYY-MM-DD HH:MM:SS" />  
+      <button class="btn btn-success timeblock-create-button"
+              data-task-id="<%= @task.id %>">Add new</button>
+    </div>
   </p>
 </div>
 

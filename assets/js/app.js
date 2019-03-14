@@ -20,10 +20,39 @@ import "bootstrap";
 // import socket from "./socket"
 
 $(function() {
-  function update_timeblocks(input_id) {
-    console.log("updating..");
-    $('#' + input_id).remove(); 
+  function create_timeblock(starttime, endtime) {
+    let newTimeblock = "<div>Added: " + starttime + " - " + endtime + "</div>"
+    $('#added-timeblocks').append(newTimeblock); 
   }
+
+  $('.timeblock-create-button').click((ev) => {
+    let task_id = $(ev.target).data('task-id');
+    let starttime = $('#create-timeblock-start').val();
+    let endtime = $('#create-timeblock-end').val();
+
+    let text = JSON.stringify({
+      timeblock: {
+        task_id: task_id,
+        starttime: starttime,
+        endtime: endtime,
+      }
+    });  
+    
+    $.ajax(timeblock_path, {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: text,
+      success: (resp) => {
+        console.log("success");
+        create_timeblock(starttime, endtime);
+      },
+      error: (resp) => {
+        console.log(resp);
+        alert("failed to create - format should be: \nYYYY-MM-DD HH:MM:SS");
+      },
+    }); 
+  });
 
   $('.timeblock-update-button').click((ev) => {
     let timeblock_id = $(ev.target).data('timeblock-id');
@@ -48,7 +77,7 @@ $(function() {
         console.log("success");
       },
       error: (resp) => {
-        alert("failed to update - format should be: \nYYYY-MM-DD HH-MM-SS");
+        alert("failed to update - format should be: \nYYYY-MM-DD HH:MM:SS");
         console.log(resp);
       },
     });
