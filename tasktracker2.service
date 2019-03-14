@@ -1,0 +1,16 @@
+[Unit]
+Description=Task Tracker 2
+
+[Service]
+Type=simple
+User=tasktracker2
+Group=tasktracker2
+Restart=on-failure
+Environment=MIX_ENV=prod "PORT=4795"
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/tasktracker2/task_tracker
+ExecStart=/home/tasktracker2/task_tracker/start.sh
+
+[Install]
+WantedBy=multi-user.target
