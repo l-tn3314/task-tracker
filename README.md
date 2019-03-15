@@ -51,7 +51,9 @@ system since they are signing up for it)
 - ^the above is different from another view the user could see -- a view of all tasks (and a task report)
 - for a task (show) page, there is also an option to start/stop working on the task - this creates a timeblock for the task
 - ^the above action is not limited to only the user assigned to a task; it's possible that an unassigned/assigned task be worked on by multiple people
-
+- ^ after stop working on a task, a temporary text is shown for the newly added timeblock. There is no option to start working again, because it does not make much sense for a new timeblock to be started immediately after stopping the previous one (and if that is the case, that timeblock should have been continuous instead)
+- previously entered in timeblocks may be edited/deleted, but adding new timeblocks shows temporary text representing the new timeblocks (without options to edit/delete, since they were just newly added; they are open to editing/deleting next visit to the edit page, since they will then be considered a previously entered timeblock)
+- BackupAgent (start time stored in the server) is used for the direct time tracking feature, because users should be able to stop working on a task after closing the browser and opening a new browser
 
 
 ## Phoenix
