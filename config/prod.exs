@@ -73,7 +73,7 @@ config :logger, level: :info
 # separately.
 #import_config "prod.secret.exs"
 get_secret = fn name ->
-  base = Path.expand("~/.config/tracker_tracker")
+  base = Path.expand("~/.config/task_tracker")
   File.mkdir_p!(base)
   path = Path.join(base, name)
   unless File.exists?(path) do
@@ -88,7 +88,7 @@ config :task_tracker, TaskTrackerWeb.Endpoint,
 
 # Config database
 config :task_tracker, TaskTracker.Repo,
-  username: "task_tracker",
+  username: "task_tracker2",
   password: get_secret.("db_pass"),
-  database: "task_tracker_prod",
+  database: "task_tracker2_prod",
   pool_size: 15
