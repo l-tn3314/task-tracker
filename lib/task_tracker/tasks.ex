@@ -18,7 +18,8 @@ defmodule TaskTracker.Tasks do
 
   """
   def list_tasks do
-    Repo.all(Task)
+    Repo.all from t in Task,
+      preload: :user
   end
 
   @doc """

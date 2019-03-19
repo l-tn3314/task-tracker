@@ -9,12 +9,6 @@
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-expand-sm navbar-light bg-white">
-        <div class="col-12">
-          <a class="navbar-brand" href="#">Task Tracker</a>
-        </div>
-      </nav>
-
       <div class="row">
         <div class="col-12">
           <%= if get_flash(@conn, :info) do %>
