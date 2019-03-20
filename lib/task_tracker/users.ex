@@ -37,6 +37,11 @@ defmodule TaskTracker.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def authenticate_user(email, password) do
+    Repo.get_by(User, email: email)
+    |> Argon2.check_pass(password)
+  end
+
   @doc """
   Creates a user.
 

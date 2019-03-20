@@ -13,10 +13,34 @@ class Root extends React.Component {
     super(props);
 
     this.state = {
+      login_form: {email: "", password: ""},
+      session: null,
       users: [],
     };
   } 
  
+  login() {
+    $.ajax("/api/auth", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify(this.state.login_form),
+      success: (resp) => {
+        console.log("login success");
+        this.setState(_.assign({}, this.state, { session: resp.data }));
+      },
+      error: (resp) => {
+        console.log("login fail");
+      }
+    });
+  }
+
+  update_login_form(data) {
+    let form = _.assign({}, this.state.login_form, data);
+    let state = _.assign({}, this.state, { login_form: form })
+    this.setState(state);
+  } 
+
   fetch_users() {
     $.ajax("/api/users", {
       method: "get",
@@ -37,7 +61,7 @@ class Root extends React.Component {
     return <div className="container">
         <Router>
           <div>
-            <Header root={this} />
+            <Header session={this.state.session} root={this} />
             <Route path="/" exact={true} render={() =>
               <TaskList tasks={this.props.tasks} />
             } />
@@ -51,7 +75,23 @@ class Root extends React.Component {
 }
 
 function Header(props) {
-  let {root} = props;
+  let {root, session} = props;
+  let sessionInfo;
+
+  if (session == null) {
+    sessionInfo = 
+        <div className="form-inline my-2">
+          <input type="email" placeholder="email" 
+                  onChange={(ev) => root.update_login_form({email: ev.target.value})} />
+          <input type="password" placeholder="password" 
+                  onChange={(ev) => root.update_login_form({password: ev.target.value})} />
+          <button className="btn btn-secondary" onClick={() => root.login()}>Login</button>
+        </div>;
+  } else {
+    sessionInfo = <div className="my-2">
+        <p>Logged in as: {session.user_id}</p>
+      </div>;
+  }
 
   return <div>
     <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -62,11 +102,7 @@ function Header(props) {
         <p><Link to={"/users"} onClick={root.fetch_users.bind(root)}>Users</Link></p>
       </div>
       <div className="col-5">
-        <div className="form-inline my-2">
-          <input type="email" placeholder="email" />
-          <input type="password" placeholder="password" />
-          <button className="btn btn-secondary">Login</button>
-        </div>
+        {sessionInfo}
       </div>
     </nav>
   </div>;
