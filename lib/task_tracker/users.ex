@@ -55,6 +55,14 @@ defmodule TaskTracker.Users do
 
   """
   def create_user(attrs \\ %{}) do
+    # hash password before inserting to db
+    pw_hash = Map.get(attrs,"password")
+    |> Argon2.hash_pwd_salt
+
+    attrs = attrs
+    |> Map.put("password_hash", pw_hash)
+    |> Map.delete("password")
+  
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()

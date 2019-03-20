@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 
+import Register from './register';
+
 export default function root_init(node) {
   let tasks = window.tasks;
   ReactDOM.render(<Root tasks={tasks} />, node);
@@ -65,6 +67,7 @@ class Root extends React.Component {
             <Route path="/" exact={true} render={() =>
               <TaskList tasks={this.props.tasks} />
             } />
+            <Route path="/register" exact={true} component={Register} />
             <Route path="/users" exact={true} render={() =>
               <UserList users={this.state.users} />
             } />
@@ -99,7 +102,7 @@ function Header(props) {
         <h2><Link to={"/"}>Task Tracker</Link></h2>
       </div>
       <div className="col-2">
-        <p><Link to={"/users"} onClick={root.fetch_users.bind(root)}>Users</Link></p>
+        <p><Link to={"/register"} onClick={root.fetch_users.bind(root)}>Users</Link></p>
       </div>
       <div className="col-5">
         {sessionInfo}
