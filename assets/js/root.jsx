@@ -2,12 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
+import api from './api';
+
+import Header from './header';
 import Register from './register';
 
-export default function root_init(node) {
+export default function root_init(node, store) {
   let tasks = window.tasks;
-  ReactDOM.render(<Root tasks={tasks} />, node);
+  ReactDOM.render(
+    <Provider store={store}>
+      <Root tasks={tasks} />
+    </Provider>, node);
 }
 
 class Root extends React.Component {
@@ -63,7 +70,7 @@ class Root extends React.Component {
     return <div className="container">
         <Router>
           <div>
-            <Header session={this.state.session} root={this} />
+            <Header session={this.state.session} />
             <Route path="/" exact={true} render={() =>
               <TaskList tasks={this.props.tasks} />
             } />
@@ -75,40 +82,6 @@ class Root extends React.Component {
         </Router>
       </div>;
   }
-}
-
-function Header(props) {
-  let {root, session} = props;
-  let sessionInfo;
-
-  if (session == null) {
-    sessionInfo = 
-        <div className="form-inline my-2">
-          <input type="email" placeholder="email" 
-                  onChange={(ev) => root.update_login_form({email: ev.target.value})} />
-          <input type="password" placeholder="password" 
-                  onChange={(ev) => root.update_login_form({password: ev.target.value})} />
-          <button className="btn btn-secondary" onClick={() => root.login()}>Login</button>
-        </div>;
-  } else {
-    sessionInfo = <div className="my-2">
-        <p>Logged in as: {session.user_id}</p>
-      </div>;
-  }
-
-  return <div>
-    <nav className="navbar navbar-expand-sm navbar-light bg-light">
-      <div className="col-5">
-        <h2><Link to={"/"}>Task Tracker</Link></h2>
-      </div>
-      <div className="col-2">
-        <p><Link to={"/register"} onClick={root.fetch_users.bind(root)}>Users</Link></p>
-      </div>
-      <div className="col-5">
-        {sessionInfo}
-      </div>
-    </nav>
-  </div>;
 }
 
 function TaskList(props) {
