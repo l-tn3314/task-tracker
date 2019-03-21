@@ -124,11 +124,14 @@ class TheServer {
       contentType: "application/json; charset=UTF-8",
       data: "",
       success: (resp) => {
-        console.log("yes");
-//        this.setState(_.assign({}, this.state, { users: resp.data }));
+        console.log(resp);
+        store.dispatch({
+          type: "USER_LIST",
+          data: resp.data,
+        });
       },
       error: (resp) => {
-        console.log("oh no");
+        console.log("failed to fetch users");
       },
     });
   }

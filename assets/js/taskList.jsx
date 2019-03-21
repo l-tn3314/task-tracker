@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom';
 import api from './api';
 
 function TaskList(props) {
-  api.fetch_tasks();
-
   let { session, tasks, dispatch } = props;
   let allTasks = _.map(tasks, (t) => <Task key={t.id} task={t} dispatch={dispatch} allowEdit={session} />);
     
@@ -38,7 +36,6 @@ function TaskList(props) {
 
 function Task(props) {
   let {allowEdit, task, dispatch} = props;
-  console.log(task.completed);
   let editLink = allowEdit 
       ? <td><Link to={"/tasks/" + task.id}>Edit</Link></td>
       : null

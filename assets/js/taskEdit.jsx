@@ -21,6 +21,8 @@ class TaskEdit extends React.Component {
   }
 
   onSuccessfulUpdate() {
+    api.fetch_tasks(); // update cache 
+
     this.props.history.push("/tasks");
     
     this.props.dispatch({type: 'CLEAR_TASK_FORM'});  

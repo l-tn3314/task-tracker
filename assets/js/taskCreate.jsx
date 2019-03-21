@@ -17,6 +17,8 @@ class TaskCreate extends React.Component {
   }
 
   onSuccessfulCreate() {
+    api.fetch_tasks(); // update cache
+
     this.props.history.push("/");
     
     this.props.dispatch({type: 'CLEAR_TASK_FORM'});  

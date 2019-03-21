@@ -7,6 +7,10 @@ import deepFreeze from 'deep-freeze';
     // Session
     session: null, // { token, user_id }
 
+    // Tasks & Users
+    tasks: [],
+    users: [],
+
     // Forms
     login_form: { email: "", password: "" },
     register_form: { email: "", password: ""},
@@ -15,7 +19,12 @@ import deepFreeze from 'deep-freeze';
 */
 
 function users(state = [], action) {
-  return state;
+  switch (action.type) {
+    case 'USER_LIST':
+      return action.data;
+    default:
+      return state;
+  }
 }
 
 function tasks(state = [], action) {

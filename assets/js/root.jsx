@@ -15,7 +15,9 @@ import TaskList from './taskList';
 export default function root_init(node, store) {
   let tasks = window.tasks;
   
+  // cache tasks and users  
   api.fetch_tasks();
+  api.fetch_users();
 
   ReactDOM.render(
     <Provider store={store}>
