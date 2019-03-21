@@ -6,7 +6,7 @@ import _ from 'lodash';
 import api from './api';
 
 function TaskForm(props) {
-  let {buttonText, onButtonClick, task_form, dispatch} = props;
+  let {buttonText, onButtonClick, task_form, users, dispatch} = props;
 
   function updateTitle(ev) {
     let action = _.assign({}, task_form, {
@@ -52,7 +52,15 @@ function TaskForm(props) {
 
     dispatch(action);
   }
-  
+
+  let userOptions = _.map(users, (u) => {
+    if (u.id == task_form.user_id) {
+      return <option value={u.id} selected>{u.email}</option>;
+    } else {
+      return <option value={u.id}>{u.email}</option>;
+    }
+  });
+
   return <div>
     <div className="form-group my-2">
       <label for="inputTitle">Title: </label>
@@ -71,8 +79,11 @@ function TaskForm(props) {
       <input type="number" id="numberTimespent" value="0" className="ml-2" min="0" step="1" value={task_form.time_spent} onChange={updateTimeSpent} />
     </div>
     <div className="form-group my-2">
-      <label for="numberUserid">User ID: </label>
-      <input type="number" id="numberUserid" className="ml-2" value={task_form.user_id || ""} onChange={updateUserId} />
+      <label for="selectUserid">Assigned User: </label>
+      <select id="selectUserid" onChange={updateUserId}>
+        <option value={null}></option>
+        {userOptions}
+      </select>
     </div>
     <button className="btn btn-primary" disabled={!task_form.isValid} onClick={onButtonClick}>{buttonText}</button>
   </div>;
@@ -81,6 +92,7 @@ function TaskForm(props) {
 function state2props(state) {
   return {
     task_form: state.task_form,
+    users: state.users,
   };
 }
 

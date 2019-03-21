@@ -70,7 +70,6 @@ class TheServer {
   }
   
   update_task(authToken, task_id, title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = (resp) => {}) {
-    console.log(authToken);
     $.ajax("/api/tasks/" + task_id, {
       method: "put",
       dataType: "json",
