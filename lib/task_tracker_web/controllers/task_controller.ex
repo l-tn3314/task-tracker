@@ -6,6 +6,8 @@ defmodule TaskTrackerWeb.TaskController do
 
   action_fallback TaskTrackerWeb.FallbackController
 
+  plug TaskTrackerWeb.Plugs.RequireAuth when action in [:create, :update, :delete]
+
   def index(conn, _params) do
     tasks = Tasks.list_tasks()
     render(conn, "index.json", tasks: tasks)

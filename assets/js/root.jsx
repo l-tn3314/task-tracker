@@ -10,7 +10,6 @@ import Header from './header';
 import Register from './register';
 import TaskCreate from './taskCreate';
 import TaskEdit from './taskEdit';
-import TaskForm from './taskForm';
 import TaskList from './taskList';
 
 export default function root_init(node, store) {
@@ -35,14 +34,10 @@ class Root extends React.Component {
           <div>
             <Header />
             <Route path="/" exact={true} component={TaskList} />
-            <Route path="/a" exact={true} render={() =>
-              <TaskList tasks={this.props.tasks} />
-            } />
             <Route path="/register" exact={true} component={Register} />
             <Route path="/tasks" exact={true} component={TaskList} />
             <Route path="/tasks/:id" component={TaskEdit} />
-            <Route path="/taskForm" component={TaskForm} />
-            <Route path="/taskList" component={TaskList} />
+            <Route path="/taskCreate" component={TaskCreate} />
             <Route path="/users" exact={true} render={() =>
               <UserList />
             } />

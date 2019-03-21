@@ -15,7 +15,7 @@ class TaskEdit extends React.Component {
     super(props);
     this.tasks = props.tasks;
     this.task_id = props.match.params.id;
-    this.task = this.tasks.find((t) => {console.log(t.id); return t.id == this.task_id});
+    this.task = this.tasks.find((t) => {return t.id == this.task_id});
 
     props.dispatch(_.assign({}, this.task, {type: 'UPDATE_TASK_FORM'}));
   }
@@ -27,7 +27,7 @@ class TaskEdit extends React.Component {
   } 
 
   onButtonClick() {
-    api.update_task(this.task_id, this.props.task_form.title, this.props.task_form.description, this.props.task_form.completed, this.props.task_form.time_spent, this.props.task_form.user_id, this.onSuccessfulUpdate.bind(this));
+    api.update_task(this.props.session.token, this.task_id, this.props.task_form.title, this.props.task_form.description, this.props.task_form.completed, this.props.task_form.time_spent, this.props.task_form.user_id, this.onSuccessfulUpdate.bind(this));
   };
   
   render() {
@@ -37,6 +37,7 @@ class TaskEdit extends React.Component {
 
 function state2props(state) {
   return {
+    session: state.session,
     task_form: state.task_form,
     tasks: state.tasks,
   };

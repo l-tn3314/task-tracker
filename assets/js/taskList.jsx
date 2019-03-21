@@ -4,10 +4,16 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 function TaskList(props) {
-  let { tasks, dispatch } = props;
-  let allTasks = _.map(tasks, (t) => <Task key={t.id} task={t} dispatch={dispatch} />);
+  let { session, tasks, dispatch } = props;
+  let allTasks = _.map(tasks, (t) => <Task key={t.id} task={t} dispatch={dispatch} allowEdit={session} />);
+    
+  let createTaskButton = session 
+      ? <Link to='/taskCreate'><button className="btn btn-primary">New Task</button></Link> 
+      : null
+  
   return <div className="row">
       <div className="col-12">
+        <h2>All Tasks {createTaskButton}</h2>
         <table className="table table-striped">
           <thead>
             <tr>
@@ -27,20 +33,24 @@ function TaskList(props) {
 }
 
 function Task(props) {
-  let {task, dispatch} = props;
+  let {allowEdit, task, dispatch} = props;
   console.log(task.completed);
+  let editLink = allowEdit 
+      ? <td><Link to={"/tasks/" + task.id}>Edit</Link></td>
+      : null
   return <tr>
       <td>{task.title}</td>
       <td>{task.description}</td>
       <td>{"" + task.completed}</td>
       <td>{task.time_spent} min.</td>
       <td>{task.user_id}</td>
-      <td><Link to={"/tasks/" + task.id}>Edit</Link></td>
+      {editLink}
     </tr>
 }
 
 function state2props(state) {
   return {
+    session: state.session,
     tasks: state.tasks,
   };
 }

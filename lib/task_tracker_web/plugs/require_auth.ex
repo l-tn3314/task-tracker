@@ -4,7 +4,7 @@ defmodule TaskTrackerWeb.Plugs.RequireAuth do
   def init(args), do: args
 
   def call(conn, _args) do
-    token = get_req_header(conn, "x-auth")
+    [token | tmp] = get_req_header(conn, "x-auth")
     case Phoenix.Token.verify(TaskTrackerWeb.Endpoint, "user_id", token, max_age: 86400) do
       {:ok, user_id} ->
         assign(conn, :current_user, TaskTracker.Users.get_user!(user_id))

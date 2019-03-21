@@ -41,7 +41,7 @@ class TheServer {
     });
   }
 
-  create_task(title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = () => {}) {
+  create_task(authToken, title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = () => {}) {
     $.ajax("/api/tasks", {
       method: "post",
       dataType: "json",
@@ -55,6 +55,7 @@ class TheServer {
           user_id: user_id,
         }
       }),
+      headers: {"X-AUTH": authToken},
       success: (resp) => {
         console.log("created task");
         successCallback();
@@ -67,7 +68,8 @@ class TheServer {
     });
   }
   
-  update_task(task_id, title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = () => {}) {
+  update_task(authToken, task_id, title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = () => {}) {
+    console.log(authToken);
     $.ajax("/api/tasks/" + task_id, {
       method: "put",
       dataType: "json",
@@ -81,6 +83,7 @@ class TheServer {
           user_id: user_id,
         }
       }),
+      headers: {"X-AUTH": authToken},
       success: (resp) => {
         console.log("updated task");
         successCallback();

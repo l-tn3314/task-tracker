@@ -6,25 +6,34 @@ import TaskForm from './taskForm';
 
 import api from './api';
 
-function TaskCreate(props) {
-  let {task_form, dispatch} = props;
+// this component is a class instead of a function because 'UPDATE_TASK_FORM' needs
+// to be dispatched once, when this component is first mounted. 
+// (putting it in a function causes it to be repeatedly called)
+class TaskCreate extends React.Component {
+  constructor(props) {
+    super(props);
 
-  function onSuccessfulCreate() {
-    props.history.push("/");
+    props.dispatch({type: 'CLEAR_TASK_FORM'});
+  }
+
+  onSuccessfulCreate() {
+    this.props.history.push("/");
     
-    dispatch({type: 'CLEAR_TASK_FORM'});  
+    this.props.dispatch({type: 'CLEAR_TASK_FORM'});  
   } 
 
-  let onButtonClick = () => {
-    api.create_task(task_form.title, task_form.description, task_form.completed, task_form.time_spent, task_form.user_id, onSuccessfulCreate);
+  onButtonClick() {
+    api.create_task(this.props.session.token, this.props.task_form.title, this.props.task_form.description, this.props.task_form.completed, this.props.task_form.time_spent, this.props.task_form.user_id, this.onSuccessfulCreate.bind(this));
   };
 
-  return <TaskForm dispatch={props.dispatch} onButtonClick={onButtonClick} buttonText={"Create Task"} />
-  
+  render() {
+    return <TaskForm dispatch={this.props.dispatch} onButtonClick={this.onButtonClick.bind(this)} buttonText={"Create Task"} />
+  }
 } 
 
 function state2props(state) {
   return {
+    session: state.session,
     task_form: state.task_form,
   };
 }
