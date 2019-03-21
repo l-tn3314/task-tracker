@@ -41,7 +41,31 @@ class TheServer {
     });
   }
 
-  // TODO create task
+  create_task(title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = () => {}) {
+    $.ajax("/api/tasks", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset-UTF-8",
+      data: JSON.stringify({
+        task: {
+          title: title,
+          description: description,
+          completed: completed,
+          time_spent: time_spent,
+          user_id: user_id,
+        }
+      }),
+      success: (resp) => {
+        console.log("created task");
+        successCallback();
+      }, 
+      error: (resp) => {
+        console.log("failed to create task");
+        console.log(resp);
+        errorCallback();
+      }
+    });
+  }
 
   fetch_users() {
     $.ajax("/api/users", {
