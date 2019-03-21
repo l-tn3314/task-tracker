@@ -74,6 +74,7 @@ class TheServer {
       contentType: "application/json; charset=UTF-8",
       data: "",
       success: (resp) => {
+        console.log(resp);
         store.dispatch({
           type: "TASK_LIST",
           data: resp.data,

@@ -27,10 +27,11 @@ function TaskList(props) {
 
 function Task(props) {
   let {task, dispatch} = props;
+  console.log(task.completed);
   return <tr>
       <td>{task.title}</td>
       <td>{task.description}</td>
-      <td>{task.completed}</td>
+      <td>{"" + task.completed}</td>
       <td>{task.time_spent} min.</td>
       <td>{task.user_id}</td>
     </tr>

@@ -20,5 +20,5 @@ Repo.insert!(%User{email: "test@test.com", password_hash: pwhash})
 Repo.insert!(%User{email: "abc@test.com", password_hash: pwhash})
 Repo.insert!(%User{email: "qwe@test.com", password_hash: pwhash})
 
-Repo.insert!(%Task{title: "some task", description: "some task description"})
+Repo.insert!(%Task{title: "some task", description: "some task description", user_id: 1})
 Repo.insert!(%Task{title: "another task", description: "another task description"})
