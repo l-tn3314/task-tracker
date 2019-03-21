@@ -2,7 +2,7 @@ import store from './store';
 
 class TheServer {
 
-  create_session(email, password) {
+  create_session(email, password, successCallback = () => {}, errorCallback = () => {}) {
     $.ajax("/api/auth", {
       method: "post",
       dataType: "json",
@@ -14,12 +14,33 @@ class TheServer {
           type: 'NEW_SESSION',
           data: resp.data,
         });
+        successCallback();
       },
       error: (resp) => {
         console.log("login fail");
+        errorCallback();
       }
     });
   }
+
+  register(email, password, successCallback = () => {}, errorCallback = () => {}) {
+    $.ajax("/api/users", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({user: {email: email, password: password}}),
+      success: (resp) => {
+        console.log("register success");
+        successCallback();
+      },
+      error: (resp) => {
+        console.log("register fail");
+        console.log(resp);
+        errorCallback();
+      }
+    });
+  }
+
 
   fetch_users() {
     $.ajax("/api/users", {

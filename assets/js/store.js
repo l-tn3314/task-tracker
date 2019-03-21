@@ -21,10 +21,11 @@ function session(state = null, action) {
   switch (action.type) {
     case 'NEW_SESSION':
       return action.data;
+    case 'END_SESSION':     
+      return null; // clear session
     default:
-      return state
+      return state;
   }
-  return state;
 }
 
 function login_form(state = {email: "", password: ""}, action) {
@@ -37,7 +38,12 @@ function login_form(state = {email: "", password: ""}, action) {
 }
 
 function register_form(state = {email: "", password: ""}, action) {
-  return state;
+  switch (action.type) {
+    case 'UPDATE_REGISTER_FORM':
+      return _.assign({}, state, {email: action.email, password: action.password});
+    default:
+      return state;
+  }
 }
 
 function root_reducer(state0, action) {

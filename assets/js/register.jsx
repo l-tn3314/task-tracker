@@ -1,51 +1,55 @@
-import React from 'react'
-import _ from 'lodash'
+import React from 'react';
+import _ from 'lodash';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
-class Register extends React.Component {
-  constructor(props) {
-    super(props);
+import api from './api';
 
-    this.state = {
-      email: "", 
-      password: "" 
+function Register(props) {
+  let {register_form, dispatch} = props;
+
+  function updateEmail(ev) {
+    let action = {
+      type: 'UPDATE_REGISTER_FORM',
+      email: ev.target.value,
+      password: register_form.password,
     }
+
+    dispatch(action);
   }
 
-  register() {
-    $.ajax("/api/users", {
-      method: "post",
-      dataType: "json",
-      contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify({user: this.state}),
-      success: (resp) => {
-        console.log("register success");
-      },
-      error: (resp) => {
-        console.log("register fail");
-        console.log(resp);
-      }
-    });
+  function updatePassword(ev) {
+    let action = {
+      type: 'UPDATE_REGISTER_FORM',
+      email: register_form.email,
+      password: ev.target.value,
+    }
+
+    dispatch(action);
   }
 
+  function successfulRegister() {
+    console.log("registered yay");
+    api.create_session(register_form.email, register_form.password, () => { props.history.push("/") });
+  }
 
-  render() {
-    let updateEmail = (ev) => { this.setState(_.assign({}, this.state, {email: ev.target.value})) };
-    let updatePassword = (ev) => { this.setState(_.assign({}, this.state, {password: ev.target.value})) };
-
-    return <div>
-      <div className="form-group my-2">
-        <label for="inputEmail">Email: </label>
-        <input type="email" id="inputEmail" placeholder="email"
-                onChange={updateEmail.bind(this)} />
-      </div>
-      <div className="form-group my-2">
-        <label for="inputPassword">Password: </label>
-        <input type="password" id="inputPassword" placeholder="password"
-                onChange={updatePassword.bind(this)} />
-      </div>
-      <button className="btn btn-primary" onClick={this.register.bind(this)}>Register</button>
-    </div>;
-  } 
+  return <div>
+    <div className="form-group my-2">
+      <label for="inputEmail">Email: </label>
+      <input type="email" id="inputEmail" placeholder="email" onChange={updateEmail} />
+    </div>
+    <div className="form-group my-2">
+      <label for="inputPassword">Password: </label>
+      <input type="password" id="inputPassword" placeholder="password" onChange={updatePassword} />
+    </div>
+    <button className="btn btn-primary" onClick={() => api.register(register_form.email, register_form.password, successfulRegister)}>Register</button>
+  </div>;
 }
 
-export default Register;
+function state2props(state) {
+  return {
+    register_form: state.register_form,
+  };
+}
+
+export default withRouter(connect(state2props)(Register));
