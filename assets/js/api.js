@@ -67,6 +67,25 @@ class TheServer {
     });
   }
 
+  fetch_tasks() {
+    $.ajax("/api/tasks", {
+      method: "get",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: "",
+      success: (resp) => {
+        store.dispatch({
+          type: "TASK_LIST",
+          data: resp.data,
+        });
+      },
+      error: (resp) => {
+        console.log("failed to fetch tasks");
+        console.log(resp);
+      },
+    });
+  }
+
   fetch_users() {
     $.ajax("/api/users", {
       method: "get",
@@ -75,7 +94,7 @@ class TheServer {
       data: "",
       success: (resp) => {
         console.log("yes");
-        this.setState(_.assign({}, this.state, { users: resp.data }));
+//        this.setState(_.assign({}, this.state, { users: resp.data }));
       },
       error: (resp) => {
         console.log("oh no");
