@@ -66,6 +66,32 @@ class TheServer {
       }
     });
   }
+  
+  update_task(task_id, title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = () => {}) {
+    $.ajax("/api/tasks/" + task_id, {
+      method: "put",
+      dataType: "json",
+      contentType: "application/json; charset-UTF-8",
+      data: JSON.stringify({
+        task: {
+          title: title,
+          description: description,
+          completed: completed,
+          time_spent: time_spent,
+          user_id: user_id,
+        }
+      }),
+      success: (resp) => {
+        console.log("updated task");
+        successCallback();
+      }, 
+      error: (resp) => {
+        console.log("failed to update task");
+        console.log(resp);
+        errorCallback();
+      }
+    });
+  }
 
   fetch_tasks() {
     $.ajax("/api/tasks", {

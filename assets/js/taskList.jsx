@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function TaskList(props) {
   let { tasks, dispatch } = props;
@@ -34,6 +35,7 @@ function Task(props) {
       <td>{"" + task.completed}</td>
       <td>{task.time_spent} min.</td>
       <td>{task.user_id}</td>
+      <td><Link to={"/tasks/" + task.id}>Edit</Link></td>
     </tr>
 }
 

@@ -6,7 +6,7 @@ import _ from 'lodash';
 import api from './api';
 
 function TaskForm(props) {
-  let {task_form, dispatch} = props;
+  let {buttonText, onButtonClick, task_form, dispatch} = props;
 
   function updateTitle(ev) {
     let action = _.assign({}, task_form, {
@@ -53,13 +53,6 @@ function TaskForm(props) {
     dispatch(action);
   }
   
-
-  function successfulCreate() {
-    props.history.push("/")
-
-    dispatch({type: "CLEAR_TASK_FORM"});
-  }
-
   return <div>
     <div className="form-group my-2">
       <label for="inputTitle">Title: </label>
@@ -81,11 +74,10 @@ function TaskForm(props) {
       <label for="numberUserid">User ID: </label>
       <input type="number" id="numberUserid" className="ml-2" value={task_form.user_id || ""} onChange={updateUserId} />
     </div>
-    <button className="btn btn-primary" disabled={!task_form.isValid} onClick={() => api.create_task(task_form.title, task_form.description, task_form.completed, task_form.time_spent, task_form.user_id, successfulCreate)}>Create Task</button>
+    <button className="btn btn-primary" disabled={!task_form.isValid} onClick={onButtonClick}>{buttonText}</button>
   </div>;
 }
 
-// TODO update from register to create new task
 function state2props(state) {
   return {
     task_form: state.task_form,

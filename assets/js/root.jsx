@@ -8,6 +8,8 @@ import api from './api';
 
 import Header from './header';
 import Register from './register';
+import TaskCreate from './taskCreate';
+import TaskEdit from './taskEdit';
 import TaskForm from './taskForm';
 import TaskList from './taskList';
 
@@ -37,6 +39,8 @@ class Root extends React.Component {
               <TaskList tasks={this.props.tasks} />
             } />
             <Route path="/register" exact={true} component={Register} />
+            <Route path="/tasks" exact={true} component={TaskList} />
+            <Route path="/tasks/:id" component={TaskEdit} />
             <Route path="/taskForm" component={TaskForm} />
             <Route path="/taskList" component={TaskList} />
             <Route path="/users" exact={true} render={() =>
