@@ -8,6 +8,7 @@ import api from './api';
 
 import Header from './header';
 import Register from './register';
+import TaskForm from './taskForm';
 
 export default function root_init(node, store) {
   let tasks = window.tasks;
@@ -20,36 +21,8 @@ export default function root_init(node, store) {
 class Root extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      login_form: {email: "", password: ""},
-      session: null,
-      users: [],
-    };
   } 
  
-  login() {
-    $.ajax("/api/auth", {
-      method: "post",
-      dataType: "json",
-      contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify(this.state.login_form),
-      success: (resp) => {
-        console.log("login success");
-        this.setState(_.assign({}, this.state, { session: resp.data }));
-      },
-      error: (resp) => {
-        console.log("login fail");
-      }
-    });
-  }
-
-  update_login_form(data) {
-    let form = _.assign({}, this.state.login_form, data);
-    let state = _.assign({}, this.state, { login_form: form })
-    this.setState(state);
-  } 
-
   fetch_users() {
     $.ajax("/api/users", {
       method: "get",
@@ -58,7 +31,7 @@ class Root extends React.Component {
       data: "",
       success: (resp) => {
         console.log("yes");
-        this.setState(_.assign({}, this.state, { users: resp.data }));
+//        this.setState(_.assign({}, this.state, { users: resp.data }));
       },
       error: (resp) => {
         console.log("oh no");
@@ -70,13 +43,15 @@ class Root extends React.Component {
     return <div className="container">
         <Router>
           <div>
-            <Header session={this.state.session} />
-            <Route path="/" exact={true} render={() =>
+            <Header />
+            <Route path="/" exact={true} component={TaskForm} />
+            <Route path="/a" exact={true} render={() =>
               <TaskList tasks={this.props.tasks} />
             } />
             <Route path="/register" exact={true} component={Register} />
+            <Route path="/taskForm" component={TaskForm} />
             <Route path="/users" exact={true} render={() =>
-              <UserList users={this.state.users} />
+              <UserList />
             } />
           </div>
         </Router>

@@ -51,7 +51,7 @@ function Header(props) {
   if (session == null) {
     sessionInfo = <div> 
         <div className="form-inline my-2">
-          <input type="email" placeholder="email" onChange={updateEmail} />
+          <input type="email" placeholder="email" value={login_form.email} onChange={updateEmail} />
           <input type="password" placeholder="password" onChange={updatePassword} /> 
           <button className="btn btn-primary" onClick={() => api.create_session(login_form.email, login_form.password, navToIndex)}>Login</button>
         </div>
