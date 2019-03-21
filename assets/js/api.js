@@ -2,7 +2,7 @@ import store from './store';
 
 class TheServer {
 
-  create_session(email, password, successCallback = () => {}, errorCallback = () => {}) {
+  create_session(email, password, successCallback = () => {}, errorCallback = (resp) => {}) {
     $.ajax("/api/auth", {
       method: "post",
       dataType: "json",
@@ -18,12 +18,13 @@ class TheServer {
       },
       error: (resp) => {
         console.log("login fail");
-        errorCallback();
+        console.log(resp);
+        errorCallback(resp);
       }
     });
   }
 
-  register(email, password, successCallback = () => {}, errorCallback = () => {}) {
+  register(email, password, successCallback = () => {}, errorCallback = (resp) => {}) {
     $.ajax("/api/users", {
       method: "post",
       dataType: "json",
@@ -36,12 +37,12 @@ class TheServer {
       error: (resp) => {
         console.log("register fail");
         console.log(resp);
-        errorCallback();
+        errorCallback(resp);
       }
     });
   }
 
-  create_task(authToken, title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = () => {}) {
+  create_task(authToken, title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = (resp) => {}) {
     $.ajax("/api/tasks", {
       method: "post",
       dataType: "json",
@@ -63,12 +64,12 @@ class TheServer {
       error: (resp) => {
         console.log("failed to create task");
         console.log(resp);
-        errorCallback();
+        errorCallback(resp);
       }
     });
   }
   
-  update_task(authToken, task_id, title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = () => {}) {
+  update_task(authToken, task_id, title, description, completed, time_spent, user_id = null, successCallback = () => {}, errorCallback = (resp) => {}) {
     console.log(authToken);
     $.ajax("/api/tasks/" + task_id, {
       method: "put",
@@ -91,7 +92,7 @@ class TheServer {
       error: (resp) => {
         console.log("failed to update task");
         console.log(resp);
-        errorCallback();
+        errorCallback(resp);
       }
     });
   }

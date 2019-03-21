@@ -3,7 +3,11 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import api from './api';
+
 function TaskList(props) {
+  api.fetch_tasks();
+
   let { session, tasks, dispatch } = props;
   let allTasks = _.map(tasks, (t) => <Task key={t.id} task={t} dispatch={dispatch} allowEdit={session} />);
     

@@ -27,6 +27,10 @@ function Register(props) {
     dispatch(action);
   }
 
+  function failedRegister(resp) {
+    $('#register-error-text').html('<p>' + JSON.stringify(resp.responseJSON.errors) + '</p>')
+  }
+
   function successfulRegister() {
     console.log("registered yay");
     api.create_session(register_form.email, register_form.password, () => { props.history.push("/") });
@@ -41,7 +45,8 @@ function Register(props) {
       <label for="inputPassword">Password: </label>
       <input type="password" id="inputPassword" placeholder="password" onChange={updatePassword} />
     </div>
-    <button className="btn btn-primary" onClick={() => api.register(register_form.email, register_form.password, successfulRegister)}>Register</button>
+    <button className="btn btn-primary" disabled={!register_form.isValid} onClick={() => api.register(register_form.email, register_form.password, successfulRegister, failedRegister)}>Register</button>
+    <div id="register-error-text" className="mt-2"></div>
   </div>;
 }
 

@@ -47,14 +47,18 @@ function Header(props) {
     navToIndex();
   };
 
+  function failedLogin(resp) {
+    $('#login-error-text').html('<p>' + JSON.stringify(resp.responseJSON.error) + '</p>')
+  }
 
   if (session == null) {
     sessionInfo = <div> 
         <div className="form-inline my-2">
           <input type="email" placeholder="email" value={login_form.email} onChange={updateEmail} />
           <input type="password" placeholder="password" onChange={updatePassword} /> 
-          <button className="btn btn-primary" onClick={() => api.create_session(login_form.email, login_form.password, navToIndex)}>Login</button>
+          <button className="btn btn-primary" disabled={!login_form.isValid} onClick={() => api.create_session(login_form.email, login_form.password, navToIndex, failedLogin)}>Login</button>
         </div>
+        <div id="login-error-text"></div>
         <p>No account? <Link to={"/register"}>Click here to register!</Link></p>
       </div>;
   } else {

@@ -38,23 +38,25 @@ function session(state = null, action) {
   }
 }
 
-function login_form(state = {email: "", password: ""}, action) {
+function login_form(state = {email: "", password: "", isValid: false}, action) {
   switch (action.type) {
     case 'UPDATE_LOGIN_FORM':
-      return {email: action.email, password: action.password};
+      let valid = action.email.length > 0 && action.password.length > 0;
+      return {email: action.email, password: action.password, isValid: valid};
     case 'NEW_SESSION':
-      return {email: action.data.user_email, password: ""};
+      return {email: action.data.user_email, password: "", isValid: false};
     default:
       return state;
   }
 }
 
-function register_form(state = {email: "", password: ""}, action) {
+function register_form(state = {email: "", password: "", isValid: false}, action) {
   switch (action.type) {
     case 'UPDATE_REGISTER_FORM':
-      return {email: action.email, password: action.password};
+      let valid = action.email.length > 0 && action.password.length > 0;
+      return {email: action.email, password: action.password, isValid: valid};
     case 'NEW_SESSION': 
-      return {email: "", password: ""};
+      return {email: "", password: "", isValid: false};
     default:
       return state;
   }
