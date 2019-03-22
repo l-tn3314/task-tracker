@@ -1,0 +1,16 @@
+[Unit]
+Description=Task Tracker 3
+
+[Service]
+Type=simple
+User=tasktracker3
+Group=tasktracker3
+Restart=on-failure
+Environment=MIX_ENV=prod "PORT=4795"
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/tasktracker3/task_tracker
+ExecStart=/home/tasktracker3/task_tracker/start.sh
+
+[Install]
+WantedBy=multi-user.target
