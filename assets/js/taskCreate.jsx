@@ -12,7 +12,9 @@ import api from './api';
 class TaskCreate extends React.Component {
   constructor(props) {
     super(props);
-
+      
+    api.fetch_users(); // update cache
+  
     props.dispatch({type: 'CLEAR_TASK_FORM'});
   }
 

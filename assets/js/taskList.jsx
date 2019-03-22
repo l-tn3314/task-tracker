@@ -37,7 +37,12 @@ function TaskList(props) {
 function Task(props) {
   let {allowEdit, task, users, dispatch} = props;
   let editLink = allowEdit 
-      ? <td><Link to={"/tasks/" + task.id}>Edit</Link></td>
+      ? <td>
+          <Link to={"/tasks/" + task.id}>Edit</Link>
+          <button className="ml-4 btn btn-danger" onClick={
+            () => api.delete_task(allowEdit.token, task.id, api.fetch_tasks)  
+            }>Delete</button>
+        </td>
       : null
   let taskUser = task.user_id && users.find((u) => {return u.id == task.user_id});
   

@@ -95,6 +95,25 @@ class TheServer {
       }
     });
   }
+  
+  delete_task(authToken, task_id, successCallback = () => {}, errorCallback = (resp) => {}) {
+    $.ajax("/api/tasks/" + task_id, {
+      method: "delete",
+      dataType: "json",
+      contentType: "application/json; charset-UTF-8",
+      data: "",
+      headers: {"X-AUTH": authToken},
+      success: (resp) => {
+        console.log("deleted task");
+        successCallback();
+      }, 
+      error: (resp) => {
+        console.log("failed to delete task");
+        console.log(resp);
+        errorCallback(resp);
+      }
+    });
+  }
 
   fetch_tasks() {
     $.ajax("/api/tasks", {

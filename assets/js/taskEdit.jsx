@@ -17,6 +17,8 @@ class TaskEdit extends React.Component {
     this.task_id = props.match.params.id;
     this.task = this.tasks.find((t) => {return t.id == this.task_id});
 
+    api.fetch_users(); // update cache
+
     props.dispatch(_.assign({}, this.task, {type: 'UPDATE_TASK_FORM'}));
   }
 
