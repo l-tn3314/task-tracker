@@ -40,39 +40,10 @@ class Root extends React.Component {
             <Route path="/tasks" exact={true} component={TaskList} />
             <Route path="/tasks/:id" component={TaskEdit} />
             <Route path="/taskCreate" component={TaskCreate} />
-            <Route path="/users" exact={true} render={() =>
-              <UserList />
-            } />
           </div>
         </Router>
       </div>;
   }
 }
 
-function UserList(props) {
-  let users = _.map(props.users, (user) => <User key={user.id} user={user} />);
-
-  return <div className="row">
-      <div className="col-12">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>email</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users}
-          </tbody>
-        </table>
-      </div>
-    </div>;
-}
-
-function User(props) {
-  let {user} = props;
-
-  return <tr>
-      <td>{user.email}</td>
-    </tr>;  
-}
 
